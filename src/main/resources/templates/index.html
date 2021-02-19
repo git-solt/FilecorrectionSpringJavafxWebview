@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="filecorrection/styles/style.css">
+</head>
+<body>
+<div class="container position--relative" id="main">
+    <h1 class="text-card">Handle file error</h1>
+    <p id="content" class="margin--minor"></p>
+    <div class="container container--row position--relative" id="buttonpanel">
+        <label id="uploadLabel" class="button margin--minor" for="upload">Upload file</label>
+        <input class="margin--minor input--hide" id="upload" type="file">
+    </div>
+    <div class="errorpanel" id="errorpanel">
+        <ol id="errorlist" class="errorlist"></ol>
+    </div>
+</div>
+<script type="module" src="/filecorrection/js/client.js">
+</script>
+</body>
+</html>
