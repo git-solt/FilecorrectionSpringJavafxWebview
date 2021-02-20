@@ -412,27 +412,26 @@ function createFile(...data) {
     }).flat()
 
     const byteBuffer = arrayOfArraysOfBytes.flat()
-    const typedArrayForByteBuffer = new Int8Array(byteBuffer)
+    const typedArrayForByteBuffer = new Uint8Array(byteBuffer)
 
-    alert()
+
 
     let charbuffer = "";
-    typedArrayForByteBuffer.forEach(b => charbuffer+= b)
-    document.body.append(charbuffer)
-    let arr = [65, 93, 98]
-    let arr2 = new Int8Array(arr)
-    // arr2.forEach(c => {
-    //     document.body.append("A")
-    // })
-    document.body.append("LOOP DONE ")
-    document.body.append(charbuffer)
-    window.importantData  = charbuffer;
-    window.importantDataType = "text"
+    typedArrayForByteBuffer.forEach((b,index) => {
+        charbuffer += b
+        if(index < typedArrayForByteBuffer.byteLength -1) {
+            charbuffer += ","
+        }
+    })
 
+    if(window.javafxClient) {
+        window.charSequenceBuffer  = charbuffer;
+        window.sequenceFileName = storage.getFileName()
+        alert("we use javafx")
+
+    }
 
     const downloadableFile = new Blob([typedArrayForByteBuffer.buffer], { type: "text/plain" })
-    alert()
-
     return URL.createObjectURL(downloadableFile)
 }
 
@@ -498,6 +497,7 @@ function parseLogFileAndExtractData(file, cb) {
         const bytes = new Int8Array(bytebuffer)
         let lineNumber = ""
         let errMsg = ""
+        let i = 0
         for (const byte of bytes) {
             const char = String.fromCharCode(byte)
             const isReferanceToLineNumber = !isNaN(parseInt(char))

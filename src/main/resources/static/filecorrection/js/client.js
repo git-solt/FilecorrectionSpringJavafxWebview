@@ -31,31 +31,32 @@ function handleUpload(e) {
     if (file) {
 
 
-        const stream = file.stream()
-
-        const reader = stream.getReader()
-
-        if (reader) {
-
-        }
+        // const stream = file.stream()
+        //
+        // const reader = stream.getReader()
+        //
+        // if (reader) {
+        //
+        // }
 
         function readTheStream() {
-            // const fileReader = new FileReader()
+            const fileReader = new FileReader()
+
+            fileReader.readAsArrayBuffer(file)
+
+            fileReader.onload = function () {
+                document.body.append("loaded success")
+                console.log(fileReader.result)
+                let value = new Uint8Array(fileReader.result)
+                const done = false
+                readSourceAndCreateTable(separator.SPACE, {done, value}, undefined, handleTableRowDoubleClick)
+            }
+
+
+            // reader.read().then(({done, value}) => {
             //
-            // fileReader.readAsArrayBuffer(file)
-            //
-            // fileReader.onload = function () {
-            //     document.body.append("loaded success")
-            //     let value = new Int8Array(fileReader.result)
-            //     const done = false
-            //     readSourceAndCreateTable(separator.SPACE, {done, value}, undefined, handleTableRowDoubleClick)
-            // }
-
-
-            reader.read().then(({done, value}) => {
-
-                readSourceAndCreateTable(separator.SPACE, {done, value}, reader, handleTableRowDoubleClick)
-            })
+            //     readSourceAndCreateTable(separator.SPACE, {done, value}, reader, handleTableRowDoubleClick)
+            // })
         }
 
         readTheStream()
