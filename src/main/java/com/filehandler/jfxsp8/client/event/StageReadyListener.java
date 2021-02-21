@@ -1,13 +1,15 @@
-package com.filehandler.jfxsp8;
+package com.filehandler.jfxsp8.client.event;
 
+import com.filehandler.jfxsp8.JavaFXApplication;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import java.awt.*;
 import java.io.IOException;
 
 @Component
@@ -18,11 +20,16 @@ public class StageReadyListener implements ApplicationListener<JavaFXApplication
 
         Parent parent = null;
         try {
-            parent = FXMLLoader.load(getClass().getResource("/views/webView.fxml"));
+            parent = FXMLLoader.load(getClass().getResource("/views/enhancedWebView.fxml"));
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Scene scene = new Scene(parent, 500, 500);
+
+        double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+        Scene scene = new Scene(parent, screenWidth / 2, screenHeight / 1.3);
         stage.setScene(scene);
         stage.show();
     }

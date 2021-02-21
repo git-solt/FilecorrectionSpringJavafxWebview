@@ -390,6 +390,8 @@ function mapDataForNewFile() {
 
     const url = createFile(firstRow, rowRecordType40, rowRecordType60, lastRow)
 
+
+
     const a = document.createElement('a')
     a.href = url
     a.download = storage.getFileName().replace(".txt", "KORR") + ".txt" || "08collectdownload.txt"
@@ -427,7 +429,7 @@ function createFile(...data) {
     if(window.javafxClient) {
         window.charSequenceBuffer  = charbuffer;
         window.sequenceFileName = storage.getFileName()
-        alert("we use javafx")
+        alert()
 
     }
 
@@ -436,55 +438,6 @@ function createFile(...data) {
 }
 
 
-function parseTableAndWriteDownloadableFile(e) {
-
-    if (e.target === this) {
-        const table = document.querySelector('table')
-
-        const tableRows = table.children
-        const symbolKey = Object.getOwnPropertySymbols(tableRows.__proto__)[1]
-        const iterator = tableRows[symbolKey]()
-
-        let buffer = []
-
-        while (true) {
-            let result = iterator.next()
-            if (!result.done) {
-                const tableRowCollection = result.value.children
-                const tableDataSymbolKeyForIterator = Object.getOwnPropertySymbols(tableRowCollection.__proto__)[1]
-                const iterator = tableRowCollection[tableDataSymbolKeyForIterator]()
-
-                if (result.value.previousElementSibling) {
-                    buffer.push("\n".charCodeAt())
-                }
-
-                while (true) {
-                    const result = iterator.next()
-                    let bytes
-                    if (!result.done) {
-                        bytes = result.value.textContent.split('').map(cur => cur.charCodeAt())
-                        console.log(result.value.textContent)
-                        if (result.value.nextElementSibling != null) {
-                            bytes.push("\t".charCodeAt())
-                        }
-                        buffer = buffer.concat(bytes)
-
-                    } else {
-                        break
-                    }
-                }
-            } else break
-
-        }
-
-        const int8Array = new Int8Array(buffer)
-
-        const newFile = new Blob([int8Array.buffer], { type: "text/plain" })
-        const url = URL.createObjectURL(newFile)
-        window.open(url, '_blank')
-
-    }
-}
 
 
 function parseLogFileAndExtractData(file, cb) {

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.web.WebView?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          stylesheets="@styles/style.css"
+          fx:controller="com.filehandler.jfxsp8.client.controller.WebViewController"
+>
+    <HBox GridPane.rowIndex="0" GridPane.vgrow="NEVER" style="-fx-background-color: black" GridPane.hgrow="ALWAYS">
+        <Button fx:id="refreshBtn" onAction="#handleRefresh">
+
+        </Button>
+
+    </HBox>
+    <WebView xmlns="http://javafx.com/javafx"
+             xmlns:fx="http://javafx.com/fxml"
+             fx:id="webView"
+             GridPane.rowIndex="1"
+             GridPane.vgrow="ALWAYS"
+             GridPane.hgrow="ALWAYS"
+    >
+    </WebView>
+</GridPane>

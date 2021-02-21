@@ -1,38 +1,34 @@
-package com.filehandler.jfxsp8;
+package com.filehandler.jfxsp8.client.controller;
 
-import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import netscape.javascript.JSObject;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.IntFunction;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public class WebViewController {
     @FXML
     WebView webView;
-    StringBuffer stringBuffer = new StringBuffer();
+    WebEngine engine;
     String charSequenceBuffer = "";
     String fileName = "";
+    @FXML
+    Button refreshBtn;
     public void initialize() {
-        System.setProperty("file.encoding", "Cp1251");
-        WebEngine engine = webView.getEngine();
+//        System.setProperty("file.encoding", "Cp1251");
+        engine = webView.getEngine();
         engine.load("http://localhost:8080/");
-        engine.getLoadWorker().stateProperty().addListener((observable, old, current)-> {
-            if(current == Worker.State.SUCCEEDED) {
-//                JSObject window = ((JSObject) engine.executeScript("window"));
-            }
-        });
+        ImageView imageView = new ImageView(new Image(getClass().getResource("/static/assets/icons/1200px-Refresh_icon.svg.png").toExternalForm()));
 
+        refreshBtn.setGraphic(imageView);
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
         JSObject window = ((JSObject) engine.executeScript("window"));
         window.setMember("javafxClient", "true");
 
@@ -42,7 +38,6 @@ public class WebViewController {
             System.out.println(e.getMessage());
         });
         engine.setOnAlert((e) -> {
-            System.out.println(e.getData());
 
             charSequenceBuffer = (String) window.getMember("charSequenceBuffer");
             String[] parsedSequence = charSequenceBuffer.split(",");
@@ -52,17 +47,12 @@ public class WebViewController {
 
             openSaveDialogAndWriteToDisk(data);
 
-//            System.out.println(stringBuffer.toString());
-
-
-
-//            writeToDisk(file, stringBuffer.toString());
         });
     }
 
     private void openSaveDialogAndWriteToDisk(int[] data) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialFileName(fileName.replace(".txt", "KORR") + ".txt");
+        fileChooser.setInitialFileName(fileName.replace(".txt", "KORR"));
         fileChooser.setTitle("Save corrected file to disk");
 
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("text", ".txt"));
@@ -79,13 +69,14 @@ public class WebViewController {
 
             for(int i : data) {
                 outputStreamWriter.write((i));
-                stringBuffer.append((char)i);
             }
-            System.out.println(stringBuffer.toString());
             outputStreamWriter.close();
         }catch (IOException e) {
             e.printStackTrace();
         }
     }
-
+    @FXML
+    private void handleRefresh() {
+        engine.reload();
+    }
 }

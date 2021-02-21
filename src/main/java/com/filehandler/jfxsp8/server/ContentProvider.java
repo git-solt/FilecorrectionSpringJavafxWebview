@@ -1,4 +1,4 @@
-package com.filehandler.jfxsp8;
+package com.filehandler.jfxsp8.server;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

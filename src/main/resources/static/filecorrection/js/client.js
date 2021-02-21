@@ -45,7 +45,6 @@ function handleUpload(e) {
             fileReader.readAsArrayBuffer(file)
 
             fileReader.onload = function () {
-                document.body.append("loaded success")
                 console.log(fileReader.result)
                 let value = new Uint8Array(fileReader.result)
                 const done = false
